@@ -3,6 +3,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.Collections.swap;
+
 public class Exercises2 {
 
     /*
@@ -15,7 +17,17 @@ public class Exercises2 {
 
     public int[] twoSum(int[] nums, int target) {
         // TODO
-        return null;
+        int[] ans = new int[2];
+        int n = nums.length;
+        for (int i=0 ; i<n ; i++) {
+            for (int j = i+1; j < n; j++) {
+                if (nums[i] + nums[j] == target) {
+                    ans[0]=i;
+                    ans[1]=j;
+                }
+            }
+        }
+        return ans;
     }
 
     /*
@@ -50,7 +62,140 @@ public class Exercises2 {
 
     public int romanToInt(String s) {
         // TODO
-        return 0;
+        int max=s.length();
+        int counter =0;
+        int number=0;
+
+        if(s.charAt(counter)=='M' && counter<max){
+            number += 1000;
+            counter += 1;
+            if(counter<max && s.charAt(counter)=='M'){
+                number += 1000;
+                counter += 1;
+                if(counter<max && s.charAt(counter)=='M'){
+                    number += 1000;
+                    counter += 1;
+                }
+            }
+        }
+
+        if(counter<max && s.charAt(counter)=='D'){
+            number += 500;
+            counter += 1;
+            if(counter<max && s.charAt(counter)=='C'){
+                number += 100;
+                counter += 1;
+                if(counter<max && s.charAt(counter)=='C'){
+                    number += 100;
+                    counter += 1;
+                    if(counter<max && s.charAt(counter)=='C'){
+                        number += 100;
+                        counter += 1;
+                    }
+                }
+            }
+        }
+
+        if(counter<max && s.charAt(counter)=='C'){
+            number += 100;
+            counter += 1;
+            if(counter<max && s.charAt(counter)=='M'){
+                number += 800;
+                counter += 1;
+            }
+            if(counter<max && s.charAt(counter)=='D'){
+                number += 300;
+                counter += 1;
+            }
+            if(counter<max && s.charAt(counter)=='C'){
+                number += 100;
+                counter += 1;
+                if(counter<max && s.charAt(counter)=='C'){
+                    number += 100;
+                    counter += 1;
+                }
+            }
+        }
+
+        if(counter<max && s.charAt(counter)=='L'){
+            number += 50;
+            counter += 1;
+            if(counter<max && s.charAt(counter)=='X'){
+                number += 10;
+                counter += 1;
+                if(counter<max && s.charAt(counter)=='X'){
+                    number += 10;
+                    counter += 1;
+                    if(counter<max && s.charAt(counter)=='X'){
+                        number += 10;
+                        counter += 1;
+                    }
+                }
+            }
+        }
+
+        if(counter<max && s.charAt(counter)=='X'){
+            number += 10;
+            counter += 1;
+            if(counter<max && s.charAt(counter)=='L'){
+                number += 30;
+                counter += 1;
+            }
+            if(counter<max && s.charAt(counter)=='C'){
+                number += 80;
+                counter += 1;
+            }
+            if(counter<max && s.charAt(counter)=='X'){
+                number += 10;
+                counter += 1;
+                if(counter<max && s.charAt(counter)=='X'){
+                    number += 10;
+                    counter += 1;
+                }
+            }
+
+        }
+
+        if(counter<max && s.charAt(counter)=='V'){
+            number += 5;
+            counter += 1;
+            if(counter<max && s.charAt(counter)=='I'){
+                number += 1;
+                counter += 1;
+                if(counter<max && s.charAt(counter)=='I'){
+                    number += 1;
+                    counter += 1;
+                    if(counter<max && s.charAt(counter)=='I'){
+                        number += 1;
+                        counter += 1;
+                    }
+                }
+            }
+        }
+
+        if(counter<max && s.charAt(counter)=='I'){
+            number += 1;
+            counter += 1;
+            if(counter<max && s.charAt(counter)=='V'){
+                number += 3;
+                counter += 1;
+            }
+            if(counter<max && s.charAt(counter)=='X'){
+                number += 8;
+                counter += 1;
+            }
+            if(counter<max && s.charAt(counter)=='I'){
+                number += 1;
+                counter += 1;
+                if(counter<max && s.charAt(counter)=='I'){
+                    number += 1;
+                    counter += 1;
+                }
+            }
+
+        }
+
+        return number;
     }
 
     /*
@@ -59,8 +204,36 @@ public class Exercises2 {
     */
 
     public List<List<Integer>> permute(int[] nums) {
-        // TODO
-        return null;
+        List<List<Integer>> mylist = new ArrayList<>();
+        int size = nums.length;
+        int start = 0;
+        int helper;
+
+        if (start == size - 1) {
+            List<Integer> list1 = new ArrayList<>();
+            for (int i=0; i <= size - 1 ; i++) {
+                list1.add(i);
+            }
+            mylist.add(list1);
+        }
+        else {
+            for (int i = start; i <= size - 1; i++) {
+                helper = nums[i];
+                nums[i] = nums[start];
+                nums[start] = helper;
+
+                int[] subnums = new int[size-1];
+                for (int j = 1 ; j <= size ; j++){
+                    subnums[j-1] = nums[j];
+                }
+                permute(subnums);
+
+                helper = nums[i];
+                nums[i] = nums[start];
+                nums[start] = helper;
+            }
+        }
+        return mylist;
     }
 
     public static void main(String[] args) {
